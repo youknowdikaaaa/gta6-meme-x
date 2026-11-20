@@ -39,5 +39,11 @@ if (typeof post !== 'object' || post === null || typeof (post as { url?: unknown
   process.exit(1);
 }
 
+const url = (post as { url: string }).url;
+if (!/^https:\/\/x\.com\/[^\/]+\/status\/\d+$/.test(url)) {
+  console.error(`POST.json "url" must be a genuine X post address (https://x.com/<handle>/status/<id>), got: ${url}`);
+  process.exit(1);
+}
+
 mkdirSync(outDir, { recursive: true });
 writeFileSync(targetPath, raw);
